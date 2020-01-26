@@ -3,5 +3,10 @@
   "name": "No Comment",
   "description": "Watch videos and read articles without the comments. Form your own opinions.",
   "version": "1.0",
-  "author": "Winner-Timothy Bolorunduro"
+  "author": "Winner-Timothy Bolorunduro",
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent": false
+  },
+  "permissions": ["storage"]
 }
