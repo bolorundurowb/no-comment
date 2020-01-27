@@ -8,5 +8,8 @@
     "scripts": ["scripts/background.js"],
     "persistent": false
   },
-  "permissions": ["storage"]
+  "permissions": ["storage"],
+  "page_action": {
+    "default_popup": "templates/popup.html"
+  }
 }
