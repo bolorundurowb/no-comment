@@ -17,6 +17,11 @@ body {
     margin-top: 20px;
 }
 
+.option-row img {
+    height: 15px;
+    margin-right: 10px;
+}
+
 .option-row .switch {
     float: right;
 }
