@@ -1,0 +1,13 @@
+body {
+    width: 250px;
+    padding: 10px;
+    background-color: #EFEFEF;
+}
+
+.header {
+    font-weight: bolder;
+    margin-bottom: 10px;
+    font-size: large;
+    text-align: center;
+    color: #531F73;
+}

@@ -9,7 +9,7 @@
     "persistent": false
   },
   "permissions": ["storage"],
-  "page_action": {
-    "default_popup": "templates/popup.html"
+  "browser_action": {
+    "default_popup": "popup/popup.html"
   }
 }
