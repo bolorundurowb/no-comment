@@ -78,3 +78,7 @@ input:checked + .slider:before {
     -ms-transform: translateX(21px);
     transform: translateX(21px);
 }
+
+.custom-checkbox.custom-control-input:checked~.custom-control-label::before{
+    background-color:#531F73;
+}
