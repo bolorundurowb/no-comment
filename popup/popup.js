@@ -1,7 +1,14 @@
 window.onload = function () {
-  chrome.storage.local.get(['no-comment-preferences'], function (settings) {
-    console.log(settings);
-    console.log(settings['no-comment-preferences']);
-    console.log('Retrieved at ', new Date());
-  })
+  chrome.storage.sync.get(['no-comment-preferences'], function (items) {
+    var settings = items['no-comment-preferences'];
+    console.log(settings, $);
+
+    if (settings.isEnabled) {
+      $('all-sites').attr('checked', true);
+    } else {
+      $('all-sites').attr('disabled', true);
+      $('youtube').attr('disabled', true);
+      $('facebook').attr('disabled', true);
+    }
+  });
 };
