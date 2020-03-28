@@ -7,7 +7,6 @@
   <!--  import styles and scripts-->
   <script src="../external/jquery.min.js"></script>
   <link rel="stylesheet" href="popup.css">
-  <script src="./popup.js"></script>
 </head>
 <body>
 <div class="header">No Comment</div>
@@ -16,7 +15,7 @@
   Enable Plugin
 
   <label class="switch">
-    <input type="checkbox" id="all-sites">
+    <input type="checkbox" id="all-sites" checked>
     <span class="slider"></span>
   </label>
 </div>
@@ -27,7 +26,7 @@
     Enable For YouTube
 
     <label class="switch">
-      <input type="checkbox" id="youtube">
+      <input type="checkbox" id="youtube" disabled>
       <span class="slider"></span>
     </label>
   </div>
@@ -37,10 +36,12 @@
     Enable For Facebook?
 
     <label class="switch">
-      <input type="checkbox" id="facebook">
+      <input type="checkbox" id="facebook" disabled>
       <span class="slider"></span>
     </label>
   </div>
 </div>
+
+<script src="./popup.js"></script>
 </body>
 </html>
