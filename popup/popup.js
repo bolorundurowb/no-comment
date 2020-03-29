@@ -1,10 +1,12 @@
+var settingsKey = 'no-comment-preferences';
+var settings = {};
 var youtube = $('#youtube');
 var facebook = $('#facebook');
 var allSites = $('#all-sites');
 
 window.onload = function () {
   chrome.storage.sync.get(['no-comment-preferences'], (items) => {
-    var settings = items['no-comment-preferences'];
+    settings = items[settingsKey];
 
     if (settings.isEnabled) {
       // enable the checkboxes
@@ -23,11 +25,18 @@ window.onload = function () {
 // handle clicks
 allSites.change(function () {
   var isEnabled = this.checked;
+  settings.isEnabled = isEnabled;
 
   // update ui
   allSites.attr('checked', isEnabled);
   youtube.attr('disabled', !isEnabled);
   facebook.attr('disabled', !isEnabled);
 
-  console.log(isEnabled);
+  // update the sync the settings
+  console.log(settings);
+  var data = {};
+  data[settingsKey] = settings;
+  chrome.storage.sync.set(data, function () {
+    console.log('plugin successfully disabled.');
+  });
 });

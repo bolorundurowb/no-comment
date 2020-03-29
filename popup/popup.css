@@ -73,6 +73,10 @@ input:focus + .slider {
     box-shadow: 0 0 1px #531F73;
 }
 
+input:checked:disabled + .slider {
+    background-color: #9A5BA0;
+}
+
 input:checked + .slider:before {
     -webkit-transform: translateX(21px);
     -ms-transform: translateX(21px);
