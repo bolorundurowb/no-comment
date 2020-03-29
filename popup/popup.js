@@ -1,11 +1,12 @@
+var youtube = $('#youtube');
+var facebook = $('#facebook');
+var allSites = $('#all-sites');
+
 window.onload = function () {
-  chrome.storage.sync.get(['no-comment-preferences'], function (items) {
+  chrome.storage.sync.get(['no-comment-preferences'], (items) => {
     var settings = items['no-comment-preferences'];
 
     if (settings.isEnabled) {
-      var youtube = $('#youtube');
-      var facebook = $('#facebook');
-
       // enable the checkboxes
       youtube.attr('disabled', false);
       facebook.attr('disabled', false);
@@ -14,7 +15,19 @@ window.onload = function () {
       youtube.attr('checked', settings.isYoutubeEnabled);
       facebook.attr('checked', settings.isFacebookEnabled);
     } else {
-      $('#all-sites').attr('checked', false);
+      allSites.attr('checked', false);
     }
   });
 };
+
+// handle clicks
+allSites.change(function () {
+  var isEnabled = this.checked;
+
+  // update ui
+  allSites.attr('checked', isEnabled);
+  youtube.attr('disabled', !isEnabled);
+  facebook.attr('disabled', !isEnabled);
+
+  console.log(isEnabled);
+});
