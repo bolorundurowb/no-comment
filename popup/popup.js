@@ -37,8 +37,14 @@ allSites.change(function () {
 });
 
 youtube.change(function () {
-  var youtubeEnabled = this.checked;
-  settings.isYoutubeEnabled = youtubeEnabled;
+  settings.isYoutubeEnabled = this.checked;
+
+  // sync settings
+  syncSettings();
+});
+
+facebook.change(function () {
+  settings.isFacebookEnabled = this.checked;
 
   // sync settings
   syncSettings();
@@ -49,6 +55,6 @@ function syncSettings() {
   var data = {};
   data[settingsKey] = settings;
   chrome.storage.sync.set(data, function () {
-    console.log('plugin successfully disabled.');
+    console.log('plugin data successfully updated.');
   });
 }
