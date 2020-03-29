@@ -38,20 +38,15 @@ allSites.change(function () {
 
 youtube.change(function () {
   settings.isYoutubeEnabled = this.checked;
-
-  // sync settings
   syncSettings();
 });
 
 facebook.change(function () {
   settings.isFacebookEnabled = this.checked;
-
-  // sync settings
   syncSettings();
 });
 
 function syncSettings() {
-  console.log(settings);
   var data = {};
   data[settingsKey] = settings;
   chrome.storage.sync.set(data, function () {
