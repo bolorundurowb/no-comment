@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
   "name": "No Comment",
-  "description": "Watch videos and read articles without the comments. Form your own opinions.",
+  "description": "Watch videos and read articles without the comments. Form your own opinions without bias.",
   "version": "1.0",
   "author": "Winner-Timothy Bolorunduro",
   "background": {
     "scripts": ["background/background.js"],
     "persistent": false
   },
-  "permissions": ["storage", "declarativeContent"],
+  "permissions": ["storage", "activeTab", "declarativeContent"],
   "page_action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
@@ -20,7 +20,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://*.facebook.com/*", "https://*.youtube.com/*"],
       "js": ["external/jquery.min.js", "content/content.js"]
     }
   ],
