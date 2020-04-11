@@ -23,7 +23,7 @@ window.onload = function () {
 };
 
 // handle clicks
-allSites.change(function () {
+allSites.onchange = function () {
   var isEnabled = this.checked;
   settings.isEnabled = isEnabled;
 
@@ -34,22 +34,31 @@ allSites.change(function () {
 
   // update the sync the settings
   syncSettings();
-});
+};
 
-youtube.change(function () {
+youtube.onchange = function () {
   settings.isYoutubeEnabled = this.checked;
   syncSettings();
-});
+};
 
-facebook.change(function () {
+facebook.onchange = function () {
   settings.isFacebookEnabled = this.checked;
   syncSettings();
-});
+};
 
 function syncSettings() {
   var data = {};
   data[settingsKey] = settings;
   chrome.storage.sync.set(data, function () {
     console.log('plugin data successfully updated.');
+  });
+
+  // pass settings change to pages
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    tabs.forEach((tab) => {
+      chrome.tabs.sendMessage(tab.id, settings, function () {
+        console.log('Updated settings pushed.')
+      });
+    });
   });
 }
