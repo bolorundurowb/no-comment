@@ -55,10 +55,8 @@ function syncSettings() {
 
   // pass settings change to pages
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-    tabs.forEach((tab) => {
-      chrome.tabs.sendMessage(tab.id, settings, function () {
-        console.log('Updated settings pushed.')
-      });
+    chrome.tabs.sendMessage(tabs[0].id, settings, function () {
+      console.log('Updated settings pushed.');
     });
   });
 }
