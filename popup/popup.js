@@ -5,7 +5,7 @@ var facebook = $('#facebook');
 var allSites = $('#all-sites');
 
 window.onload = function () {
-  chrome.storage.sync.get(['no-comment-preferences'], (items) => {
+  chrome.storage.sync.get([settingsKey], (items) => {
     settings = items[settingsKey];
 
     // determine which options are enabled

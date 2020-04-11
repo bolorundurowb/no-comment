@@ -32,6 +32,7 @@ function addFacebookListeners() {
   $(window).scroll(function () {
     removeFacebookComments();
   });
+  removeFacebookComments();
 }
 
 function removeFacebookListeners() {
@@ -60,3 +61,23 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   sendResponse({});
 });
+
+window.onload = function () {
+  var settingsKey = 'no-comment-preferences';
+  chrome.storage.sync.get([settingsKey], (items) => {
+    var settings = items[settingsKey];
+    if (settings.isEnabled) {
+      if (settings.isYoutubeEnabled) {
+        removeYoutubeComments();
+      } else {
+        restoreYoutubeComments();
+      }
+
+      if (settings.isFacebookEnabled) {
+        addFacebookListeners();
+      } else {
+        removeFacebookListeners();
+      }
+    }
+  });
+}
