@@ -23,7 +23,7 @@ window.onload = function () {
 };
 
 // handle clicks
-allSites.onchange = function () {
+allSites.change(function () {
   var isEnabled = this.checked;
   settings.isEnabled = isEnabled;
 
@@ -34,27 +34,27 @@ allSites.onchange = function () {
 
   // update the sync the settings
   syncSettings();
-};
+});
 
-youtube.onchange = function () {
+youtube.change(function () {
   settings.isYoutubeEnabled = this.checked;
   syncSettings();
-};
+});
 
-facebook.onchange = function () {
+facebook.change(function () {
   settings.isFacebookEnabled = this.checked;
   syncSettings();
-};
+});
 
 function syncSettings() {
   var data = {};
   data[settingsKey] = settings;
   chrome.storage.sync.set(data, function () {
-    console.log('plugin data successfully updated.');
+    console.log('Plugin data successfully updated.');
   });
 
   // pass settings change to pages
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
     tabs.forEach((tab) => {
       chrome.tabs.sendMessage(tab.id, settings, function () {
         console.log('Updated settings pushed.')
