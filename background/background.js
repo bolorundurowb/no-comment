@@ -29,6 +29,8 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
     conditions: [
       new chrome.declarativeContent.PageStateMatcher({
         pageUrl: {hostContains: 'facebook.com'}
+      }),  new chrome.declarativeContent.PageStateMatcher({
+        pageUrl: {hostContains: 'youtube.com'}
       })], actions: [new chrome.declarativeContent.ShowPageAction()]
-  }])
+  }]);
 });
