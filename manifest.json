@@ -20,7 +20,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://*.facebook.com/*", "https://*.youtube.com/watch*"],
       "js": ["external/jquery.min.js", "content/content.js"]
     }
   ],
