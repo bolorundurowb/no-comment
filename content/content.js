@@ -22,10 +22,12 @@ function restoreFacebookComments() {
 
 function removeYoutubeComments() {
   $('#comments').css({display: 'none'});
+  $('ytd-comments').css({display: 'none'});
 }
 
 function restoreYoutubeComments() {
   $('#comments').css({display: 'block'});
+  $('ytd-comments').css({display: 'block'});
 }
 
 function addFacebookListeners() {
