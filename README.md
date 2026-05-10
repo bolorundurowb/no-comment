@@ -94,7 +94,7 @@ When **`version`** in **`src/manifest.json`** changes on a push to **`main`** or
 2. Builds **`dist/no-comment-<version>.zip`** with the **contents of `src/`** at the zip root (`manifest.json`, `_locales/`, `background/`, `content/`, `popup/`, `icons/`, `images/`, …), then adds **`LICENSE`** from the repo root if present.
 3. Creates git tag **`v<version>`** and publishes a **GitHub Release** with that zip and generated release notes.
 
-If the tag already exists, the job fails so you do not publish duplicates—bump `version` in **`src/manifest.json`** or remove the tag first.
+If tag **`v<version>`** already exists locally or on the remote, the workflow exits successfully and **skips** packaging and the GitHub release (a notice is logged). Bump **`src/manifest.json`** if you intend to publish a new build.
 
 ---
 

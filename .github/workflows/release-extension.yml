@@ -54,22 +54,24 @@ jobs:
         if: steps.meta.outputs.changed == 'true'
         run: git fetch --tags origin
 
-      - name: Refuse duplicate tag
+      - name: Skip release if tag already exists
+        id: duplicate_tag
         if: steps.meta.outputs.changed == 'true'
         run: |
           set -euo pipefail
           VERSION="${{ steps.meta.outputs.version }}"
+          SKIP=false
           if git show-ref --verify --quiet "refs/tags/v${VERSION}"; then
-            echo "::error::Git tag v${VERSION} already exists. Bump src/manifest.json version or delete the tag."
-            exit 1
+            SKIP=true
+            echo "::notice::Local tag v${VERSION} already exists; skipping package and release."
+          elif [ -n "$(git ls-remote --tags origin "refs/tags/v${VERSION}")" ]; then
+            SKIP=true
+            echo "::notice::Remote tag v${VERSION} already exists; skipping package and release."
           fi
-          if [ -n "$(git ls-remote --tags origin "refs/tags/v${VERSION}")" ]; then
-            echo "::error::Remote tag v${VERSION} already exists."
-            exit 1
-          fi
+          echo "skip_duplicate=${SKIP}" >> "${GITHUB_OUTPUT}"
 
       - name: Package extension zip
-        if: steps.meta.outputs.changed == 'true'
+        if: steps.meta.outputs.changed == 'true' && steps.duplicate_tag.outputs.skip_duplicate != 'true'
         run: |
           set -euo pipefail
           VERSION="${{ steps.meta.outputs.version }}"
@@ -82,7 +84,7 @@ jobs:
           unzip -l "${ZIP}"
 
       - name: Create GitHub release and tag
-        if: steps.meta.outputs.changed == 'true'
+        if: steps.meta.outputs.changed == 'true' && steps.duplicate_tag.outputs.skip_duplicate != 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.meta.outputs.version }}
