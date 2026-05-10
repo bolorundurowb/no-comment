@@ -1,0 +1,96 @@
+name: Release extension
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - "manifest.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: extension-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect manifest version change
+        id: meta
+        run: |
+          set -euo pipefail
+          VERSION=$(jq -r '.version' manifest.json)
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+
+          if ! git rev-parse HEAD~1 >/dev/null 2>&1; then
+            echo "changed=true" >> "${GITHUB_OUTPUT}"
+            echo "No parent commit; releasing initial version ${VERSION}."
+            exit 0
+          fi
+
+          PREV=""
+          if git show HEAD~1:manifest.json > /tmp/previous-manifest.json 2>/dev/null; then
+            PREV=$(jq -r '.version // empty' /tmp/previous-manifest.json)
+          fi
+
+          if [ "${PREV}" = "${VERSION}" ]; then
+            echo "changed=false" >> "${GITHUB_OUTPUT}"
+            echo "manifest.json version unchanged (${VERSION}); skipping tag and release."
+          else
+            echo "changed=true" >> "${GITHUB_OUTPUT}"
+            echo "Version bump: ${PREV:-<none>} -> ${VERSION}"
+          fi
+
+      - name: Fetch tags
+        if: steps.meta.outputs.changed == 'true'
+        run: git fetch --tags origin
+
+      - name: Refuse duplicate tag
+        if: steps.meta.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.meta.outputs.version }}"
+          if git show-ref --verify --quiet "refs/tags/v${VERSION}"; then
+            echo "::error::Git tag v${VERSION} already exists. Bump manifest.json version or delete the tag."
+            exit 1
+          fi
+          if [ -n "$(git ls-remote --tags origin "refs/tags/v${VERSION}")" ]; then
+            echo "::error::Remote tag v${VERSION} already exists."
+            exit 1
+          fi
+
+      - name: Package extension zip
+        if: steps.meta.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.meta.outputs.version }}"
+          mkdir -p dist
+          ZIP="dist/no-comment-${VERSION}.zip"
+          zip -r "${ZIP}" manifest.json src _locales
+          if [ -d images ]; then
+            zip -r "${ZIP}" images
+          fi
+          if [ -f LICENSE ]; then
+            zip -r "${ZIP}" LICENSE
+          fi
+          unzip -l "${ZIP}"
+
+      - name: Create GitHub release and tag
+        if: steps.meta.outputs.changed == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.meta.outputs.version }}
+          name: No Comment v${{ steps.meta.outputs.version }}
+          files: dist/no-comment-${{ steps.meta.outputs.version }}.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

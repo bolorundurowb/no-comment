@@ -1,0 +1,66 @@
+{
+  "extensionName": {
+    "message": "No Comment",
+    "description": "Product name shown in the browser and extension management UI."
+  },
+  "extensionDescription": {
+    "message": "Hide comments on YouTube, Facebook, and Reddit so you can focus on the post or video and form your own view.",
+    "description": "Short description for the extension listing and manifest."
+  },
+  "actionDefaultTitle": {
+    "message": "No Comment — comment visibility",
+    "description": "Tooltip when hovering the toolbar button."
+  },
+  "popupDocumentTitle": {
+    "message": "No Comment — settings",
+    "description": "Browser tab or window title for the popup page."
+  },
+  "popupHeading": {
+    "message": "No Comment",
+    "description": "Main heading inside the popup."
+  },
+  "popupEnableExtension": {
+    "message": "Enable extension",
+    "description": "Label for the master on/off switch."
+  },
+  "popupEnableYoutube": {
+    "message": "Enable for YouTube",
+    "description": "Label for the YouTube site toggle."
+  },
+  "popupEnableFacebook": {
+    "message": "Enable for Facebook",
+    "description": "Label for the Facebook site toggle."
+  },
+  "popupEnableReddit": {
+    "message": "Enable for Reddit",
+    "description": "Label for the Reddit site toggle."
+  },
+  "iconAltYoutube": {
+    "message": "YouTube",
+    "description": "Alt text for the YouTube row icon."
+  },
+  "iconAltFacebook": {
+    "message": "Facebook",
+    "description": "Alt text for the Facebook row icon."
+  },
+  "iconAltReddit": {
+    "message": "Reddit",
+    "description": "Alt text for the Reddit row icon."
+  },
+  "logPreferencesSeeded": {
+    "message": "Default preferences saved to storage.",
+    "description": "Background script log when first-run defaults are written."
+  },
+  "logSettingsSaved": {
+    "message": "Settings saved.",
+    "description": "Popup log after a successful storage write."
+  },
+  "logSettingsSaveFailed": {
+    "message": "Could not save settings.",
+    "description": "Popup console error prefix when storage write fails."
+  },
+  "logTabsUpdated": {
+    "message": "Finished pushing settings to matching tabs.",
+    "description": "Popup log after attempting to broadcast to YouTube, Facebook, and Reddit tabs."
+  }
+}

@@ -20,10 +20,11 @@ function seedExtensionSettings() {
       data[settingsKey] = {
         isEnabled: true,
         isFacebookEnabled: true,
-        isYoutubeEnabled: true
+        isYoutubeEnabled: true,
+        isRedditEnabled: true
       };
       chrome.storage.sync.set(data, function () {
-        console.log('plugin preferences seeded.')
+        console.log(chrome.i18n.getMessage('logPreferencesSeeded'));
       });
     }
   })
@@ -38,7 +39,12 @@ function urlSupportsExtension(url) {
   }
   try {
     var host = new URL(url).hostname.toLowerCase();
-    return host.includes('youtube.com') || host.includes('facebook.com');
+    return (
+      host.includes('youtube.com') ||
+      host.includes('facebook.com') ||
+      host === 'reddit.com' ||
+      host.endsWith('.reddit.com')
+    );
   } catch (e) {
     return false;
   }

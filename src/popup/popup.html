@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-NG">
 <head>
   <meta charset="UTF-8">
-  <title>Popup</title>
+  <title></title>
 
-  <!--  import styles and scripts-->
-  <script src="../../external/jquery.min.js"></script>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-<div class="header">No Comment</div>
+<div class="header" id="popup-heading"></div>
 
 <div class="option-row">
-  Enable Plugin
+  <span id="label-enable-extension"></span>
 
   <label class="switch">
     <input type="checkbox" id="all-sites" checked>
@@ -22,8 +20,8 @@
 
 <div>
   <div class="option-row">
-    <img src="../icons/youtube.svg"/>
-    Enable For YouTube
+    <img src="../icons/youtube.svg" id="icon-youtube" alt=""/>
+    <span id="label-youtube"></span>
 
     <label class="switch">
       <input type="checkbox" id="youtube" disabled>
@@ -32,11 +30,21 @@
   </div>
 
   <div class="option-row">
-    <img src="../icons/facebook.svg"/>
-    Enable For Facebook?
+    <img src="../icons/facebook.svg" id="icon-facebook" alt=""/>
+    <span id="label-facebook"></span>
 
     <label class="switch">
       <input type="checkbox" id="facebook" disabled>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="option-row">
+    <img src="../icons/reddit.svg" id="icon-reddit" alt=""/>
+    <span id="label-reddit"></span>
+
+    <label class="switch">
+      <input type="checkbox" id="reddit" disabled>
       <span class="slider"></span>
     </label>
   </div>
