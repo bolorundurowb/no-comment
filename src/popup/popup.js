@@ -53,9 +53,15 @@ function syncSettings() {
     console.log('Plugin data successfully updated.');
   });
 
-  // pass settings change to pages
+  // pass settings change to pages (no-op if the active tab has no content script)
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+    if (!tabs[0] || tabs[0].id == null) {
+      return;
+    }
     chrome.tabs.sendMessage(tabs[0].id, settings, function () {
+      if (chrome.runtime.lastError) {
+        return;
+      }
       console.log('Updated settings pushed.');
     });
   });
