@@ -6,7 +6,7 @@ on:
       - main
       - master
     paths:
-      - "manifest.json"
+      - "src/manifest.json"
 
 permissions:
   contents: write
@@ -28,7 +28,7 @@ jobs:
         id: meta
         run: |
           set -euo pipefail
-          VERSION=$(jq -r '.version' manifest.json)
+          VERSION=$(jq -r '.version' src/manifest.json)
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
 
           if ! git rev-parse HEAD~1 >/dev/null 2>&1; then
@@ -38,13 +38,13 @@ jobs:
           fi
 
           PREV=""
-          if git show HEAD~1:manifest.json > /tmp/previous-manifest.json 2>/dev/null; then
+          if git show HEAD~1:src/manifest.json > /tmp/previous-manifest.json 2>/dev/null; then
             PREV=$(jq -r '.version // empty' /tmp/previous-manifest.json)
           fi
 
           if [ "${PREV}" = "${VERSION}" ]; then
             echo "changed=false" >> "${GITHUB_OUTPUT}"
-            echo "manifest.json version unchanged (${VERSION}); skipping tag and release."
+            echo "src/manifest.json version unchanged (${VERSION}); skipping tag and release."
           else
             echo "changed=true" >> "${GITHUB_OUTPUT}"
             echo "Version bump: ${PREV:-<none>} -> ${VERSION}"
@@ -60,7 +60,7 @@ jobs:
           set -euo pipefail
           VERSION="${{ steps.meta.outputs.version }}"
           if git show-ref --verify --quiet "refs/tags/v${VERSION}"; then
-            echo "::error::Git tag v${VERSION} already exists. Bump manifest.json version or delete the tag."
+            echo "::error::Git tag v${VERSION} already exists. Bump src/manifest.json version or delete the tag."
             exit 1
           fi
           if [ -n "$(git ls-remote --tags origin "refs/tags/v${VERSION}")" ]; then
@@ -75,10 +75,7 @@ jobs:
           VERSION="${{ steps.meta.outputs.version }}"
           mkdir -p dist
           ZIP="dist/no-comment-${VERSION}.zip"
-          zip -r "${ZIP}" manifest.json src _locales
-          if [ -d images ]; then
-            zip -r "${ZIP}" images
-          fi
+          (cd src && zip -r "../${ZIP}" .)
           if [ -f LICENSE ]; then
             zip -r "${ZIP}" LICENSE
           fi

@@ -16,8 +16,8 @@
     }
   },
   "background": {
-    "service_worker": "src/background/background.js",
-    "scripts": ["src/background/background.js"]
+    "service_worker": "background/background.js",
+    "scripts": ["background/background.js"]
   },
   "permissions": ["storage", "activeTab"],
   "host_permissions": [
@@ -27,7 +27,7 @@
     "https://reddit.com/*"
   ],
   "action": {
-    "default_popup": "src/popup/popup.html",
+    "default_popup": "popup/popup.html",
     "default_title": "__MSG_actionDefaultTitle__",
     "default_icon": {
       "16": "images/logo_16.png",
@@ -44,7 +44,7 @@
         "https://*.reddit.com/*",
         "https://reddit.com/*"
       ],
-      "js": ["src/content/content.js"]
+      "js": ["content/content.js"]
     }
   ],
   "icons": {
